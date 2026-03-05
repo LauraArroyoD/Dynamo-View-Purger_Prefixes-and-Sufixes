@@ -1,0 +1,769 @@
+{
+  "Uuid": "f091e189-5e4d-42b9-bedd-b45de2951d55",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Ejercicio limpieza_prefijos",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "9f7c1c8ce9f548969b9db53d61e69c04",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "1b24de5cd00a495e8b736800be8d94cb",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk \r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication \r\napp = uiapp.Application \r\nuidoc = uiapp.ActiveUIDocument\r\n\r\n#######OK NOW YOU CAN CODE########\r\n\r\ninicio=UnwrapElement(IN[0])\r\n\r\nif inicio: \r\n    vistas=FilteredElementCollector(doc).OfClass(View).ToElements() \r\n    plantillas_usadas=set([x.ViewTemplateId for x in vistas  if str(x.ViewTemplateId)!='-1'])\r\n    total_plantillas=set([(x.Id) for x in vistas if x.IsTemplate])\r\n    plantillas_no_usadas=total_plantillas.difference(plantillas_usadas)\r\n    \r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    [doc.Delete(x) for x in plantillas_no_usadas]\r\n    \r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    m_salida=\"Limpieza ejecutada\" \r\nelse: \r\n    m_salida= \"Active 'True' para comenzar la limpieza\" \r\n\r\n# Assign your output to the OUT variable.\r\nOUT = m_salida",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "6962b005814c4782a7b3eb1e2f29a465",
+      "Inputs": [
+        {
+          "Id": "f247c7b9ac3c4ea2ac614c04682b6bb0",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9b829ed051aa4159b55b1ed6f79dc3ca",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "8c15185fc35b4133932e3d93f296c0ed",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e2504b9a74a945bf8043a1337575e122",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk \r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication \r\napp = uiapp.Application \r\nuidoc = uiapp.ActiveUIDocument\r\n\r\n#######OK NOW YOU CAN CODE########\r\n\r\ninicio=UnwrapElement(IN[0])\r\n\r\ndef limpieza_plantillas_vista(doc, bool=False):\r\n    exito=0\r\n    \r\n    if inicio: \r\n        vistas=FilteredElementCollector(doc).OfClass(View).ToElements() \r\n        \r\n        total_plantillas, plantillas_usadas=set(), set() \r\n        for v in vistas: \r\n            if v.IsTemplate: \r\n                total_plantillas.add(v.Id) \r\n            else: \r\n                if v.ViewTemplateId.IntegerValue!=-1: \r\n                    plantillas_usadas.add(v.ViewTemplateId)\r\n        plantillas_sin_uso=total_plantillas.difference(plantillas_usadas) \r\n        if plantillas_sin_uso: \r\n            for p in plantillas_sin_uso: \r\n                TransactionManager.Instance.EnsureInTransaction(doc)\r\n                doc.Delete(p)\r\n                exito+=1\r\n                \r\n                TransactionManager.Instance.TransactionTaskDone()\r\n                m_salida=\"Limpieza ejecutada. Se han eliminado {0} plantillas de un total de {1}\".format(exito, len(total_plantillas))\r\n        else: \r\n            m_salida=\"No existen plantillas sin uso\"      \r\n      \r\n    else: \r\n        m_salida= \"Active 'True' para comenzar la limpieza\" \r\n    return m_salida\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = limpieza_plantillas_vista(doc, inicio)",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "f483fce1e68f481c9fa229663ca0b433",
+      "Inputs": [
+        {
+          "Id": "e6649f0466434d70883a8b33d8e01f05",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "90ca570d09e34af193e0fee69228ab48",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk \r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication \r\napp = uiapp.Application \r\nuidoc = uiapp.ActiveUIDocument\r\n\r\n#######OK NOW YOU CAN CODE########\r\n\r\ninicio=UnwrapElement(IN[0])\r\n\r\ndef limpieza_filtros_vista(doc, bool=False):\r\n    exito=0\r\n    \r\n    if inicio: \r\n        vistas=FilteredElementCollector(doc).OfClass(View).ToElements() \r\n        total_filtros=set([x.Id for x in FilteredElementCollector(doc).OfClass(ParameterFilterElement).ToElements()])\r\n        \r\n        filtros_usados=set()\r\n        for v in vistas: \r\n            try: \r\n                filtros=v.GetFilters()\r\n                for f in filtros: \r\n                    filtros_usados.add(f) \r\n            except: \r\n                pass\r\n        filtros_sin_uso=total_filtros.difference(filtros_usados) \r\n        \r\n        if filtros_sin_uso: \r\n            for f in filtros_sin_uso: \r\n                TransactionManager.Instance.EnsureInTransaction(doc)\r\n                doc.Delete(f)\r\n                exito+=1\r\n                \r\n                TransactionManager.Instance.TransactionTaskDone()\r\n                m_salida=\"Limpieza ejecutada. Se han eliminado {0} filtros de un total de {1}\".format(exito, len(total_filtros))\r\n        else: \r\n            m_salida=\"No existen filtros sin uso\"      \r\n    \r\n    else: \r\n        m_salida= \"Active 'True' para comenzar la limpieza\" \r\n    return m_salida\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = limpieza_filtros_vista(doc, inicio)",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "369a4510ed714ffaa36720c34603978a",
+      "Inputs": [
+        {
+          "Id": "ded1b100d479401bba5b7c2c9a9d4877",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ec4c4b6ba9ad4184a914c748292f0d25",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "aab5433f8d384ef18e9dec5debcfa098",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7d045b2406bb4085bf8df17f9f388ca7",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk \r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication \r\napp = uiapp.Application \r\nuidoc = uiapp.ActiveUIDocument\r\n\r\n#######OK NOW YOU CAN CODE########\r\n\r\ninicio=UnwrapElement(IN[0])\r\n\r\ndef limpieza_vistas(doc, bool=False):\r\n    exito=0\r\n    \r\n    if inicio: \r\n        planos=FilteredElementCollector(doc).OfClass(ViewSheet).ToElements() \r\n        vistas_uso=set()\r\n\r\n        \r\n        for plano in planos: \r\n            ids_vistas_plano=plano.GetAllPlacedViews()\r\n            for id in ids_vistas_plano: \r\n                vistas_uso.add(id)\r\n                vista=doc.GetElement(id)\r\n                dependencia=vista.GetPrimaryViewId()\r\n                if dependencia.IntegerValue!=-1: \r\n                    vistas_uso.add(dependencia)\r\n                \r\n                param=BuiltInParameter.SECTION_PARENT_VIEW_NAME\r\n                \r\n                if vista.get_Parameter(param): \r\n                    pariente=vista.get_Parameter(param).AsElementId()\r\n                    if pariente.IntegerValue!=-1:\r\n                        vistas_uso.add(pariente)                     \r\n                        \r\n                \r\n                \r\n                \r\n        total_vistas=set([x.Id for x in FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views).ToElements() if not x.IsTemplate])\r\n                \r\n                \r\n        vistas_sin_uso=total_vistas.difference(vistas_uso) \r\n        \r\n        if vistas_sin_uso: \r\n            for v in vistas_sin_uso: \r\n                TransactionManager.Instance.EnsureInTransaction(doc)\r\n                doc.Delete(v)\r\n                exito+=1\r\n                \r\n                TransactionManager.Instance.TransactionTaskDone()\r\n                m_salida=\"Limpieza ejecutada. Se han eliminado {0} vistass de un total de {1}\".format(exito, len(total_vistas))\r\n        else: \r\n            m_salida=\"No existen filtros sin uso\"      \r\n    \r\n    else: \r\n        m_salida= \"Active 'True' para comenzar la limpieza\" \r\n    return m_salida\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = limpieza_vistas(doc, inicio)",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "ca078f30de9b47e88548787a55b5940f",
+      "Inputs": [
+        {
+          "Id": "ee98b2fef56a4072b2914bbba04b91d2",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ac83285edf63454b9347a2ba075f06d8",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "7ef87cae7c8441fbbf7014fd2a4a7f2a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8b4b64f37e69481a8d54873346a6b740",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "75b9ab96dc6d4542b354010f2f54d835",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "43301d2b30f44fc48e83601a6dd03c7a",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk \r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication \r\napp = uiapp.Application \r\nuidoc = uiapp.ActiveUIDocument\r\n\r\n#######OK NOW YOU CAN CODE########\r\n\r\ninicio=UnwrapElement(IN[0])\r\nprefijo=UnwrapElement(IN[1]) \r\nsufijo=UnwrapElement(IN[2])\r\n\r\ndef limpieza_vistas(doc, bool=False):\r\n    exito=0\r\n    \r\n    if inicio: \r\n        planos=FilteredElementCollector(doc).OfClass(ViewSheet).ToElements() \r\n        vistas_uso=set()\r\n\r\n        \r\n        for plano in planos: \r\n            ids_vistas_plano=plano.GetAllPlacedViews()\r\n            for id in ids_vistas_plano: \r\n                vistas_uso.add(id)\r\n                vista=doc.GetElement(id)\r\n                dependencia=vista.GetPrimaryViewId()\r\n                if dependencia.IntegerValue!=-1: \r\n                    vistas_uso.add(dependencia)\r\n                \r\n                param=BuiltInParameter.SECTION_PARENT_VIEW_NAME\r\n                \r\n                if vista.get_Parameter(param): \r\n                    pariente=vista.get_Parameter(param).AsElementId()\r\n                    if pariente.IntegerValue!=-1:\r\n                        vistas_uso.add(pariente)                     \r\n                        \r\n                \r\n                \r\n                \r\n        total_vistas=set([x.Id for x in FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views).ToElements() if not x.IsTemplate])\r\n        \r\n        if len(prefijo)!=0 or len(sufijo)!=0: \r\n            vistas_conservar=set() \r\n            test=1\r\n            for id in total_vistas: \r\n                vista=doc.GetElement(id)\r\n                if vista.Name.startswith(prefijo) or vista.Name.endswith(sufijo): \r\n                    vistas_conservar.add(vista.Id) \r\n\r\n                \r\n        vistas_no_descartadas=total_vistas.difference(vistas_conservar)        \r\n        vistas_sin_uso=vistas_no_descartadas.difference(vistas_uso) \r\n        \r\n        if vistas_sin_uso: \r\n            for v in vistas_sin_uso: \r\n                TransactionManager.Instance.EnsureInTransaction(doc)\r\n                doc.Delete(v)\r\n                exito+=1\r\n                \r\n                TransactionManager.Instance.TransactionTaskDone()\r\n                m_salida=\"Limpieza ejecutada. Se han eliminado {0} vistass de un total de {1}\".format(exito, len(total_vistas))\r\n        else: \r\n            m_salida=\"No existen vistas sin uso\"      \r\n    \r\n    else: \r\n        m_salida= \"Active 'True' para comenzar la limpieza\" \r\n    return m_salida\r\n\r\n# Assign your output to the OUT variable.\r\n#OUT = limpieza_vistas(doc, inicio)\r\nOUT=limpieza_vistas(doc, inicio)",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "1422e77ec0b444eb9528175c9baaf611",
+      "Inputs": [
+        {
+          "Id": "15a52cd5fcb04431a2b6e3aba7eb6f4a",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "da3b7e41532046848577f4b86366e72a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "18dff615216a4fc39b7c2b48317e20f8",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0baae41d0b724572b70bc63a382c3acb",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "COORD",
+      "Id": "32fcf5a5468045dc90e2d19075102aae",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4c676bc1b02f4b6cba21c9a8ba52481d",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "KEEP",
+      "Id": "44d33f67eb9c490e8b301e39ad240cc1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3e7b680e19e543ca989c121a3e1aaa69",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "07a9c85cadc74d05810c9415dbafa587",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7167192f441047728658af878b37e66f",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nsys.path.append('C:\\Program Files (x86)\\IronPython 2.7\\Lib')\r\nimport System\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nimport Autodesk \r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.UI import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nuiapp = DocumentManager.Instance.CurrentUIApplication \r\napp = uiapp.Application \r\nuidoc = uiapp.ActiveUIDocument\r\n\r\n#######OK NOW YOU CAN CODE########\r\n\r\ninicio=UnwrapElement(IN[0])\r\n\r\ndef limpieza_tablas(doc, bool=False):\r\n    exito=0\r\n    \r\n    if inicio: \r\n        tablas_uso_lista=[x.Id for x in FilteredElementCollector(doc).OfClass(ScheduleSheetInstance).ToElements()]\r\n        tablas_uso=set(tablas_uso_lista)\r\n        \r\n        tablas=set([x.Id for x in FilteredElementCollector(doc).OfClass(ViewSchedule).ToElements()]) \r\n        \r\n        tablas_sin_uso=tablas.difference(tablas_uso) \r\n               \r\n        \r\n        if tablas_sin_uso: \r\n            for id in tablas_sin_uso: \r\n                TransactionManager.Instance.EnsureInTransaction(doc)\r\n                doc.Delete(id)\r\n                exito+=1\r\n                \r\n                TransactionManager.Instance.TransactionTaskDone()\r\n                m_salida=\"Limpieza ejecutada. Se han eliminado {0} vistass de un total de {1}\".format(exito, len(tablas))\r\n        else: \r\n            m_salida=\"No existen filtros sin uso\"      \r\n    \r\n    else: \r\n        m_salida= \"Active 'True' para comenzar la limpieza\" \r\n    return m_salida\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = limpieza_tablas(doc, inicio)",
+      "Engine": "CPython3",
+      "EngineName": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "8d10ea0b817349e482b13cfbdbeb6c8d",
+      "Inputs": [
+        {
+          "Id": "6a2fa48655cb49f6b1c4f7f356d9e081",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3a1256a0c5174bb4b84c8ee5ab133b3d",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "1b24de5cd00a495e8b736800be8d94cb",
+      "End": "f247c7b9ac3c4ea2ac614c04682b6bb0",
+      "Id": "e4efeb93a31c47e8a4f352de917acc2e",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "e2504b9a74a945bf8043a1337575e122",
+      "End": "e6649f0466434d70883a8b33d8e01f05",
+      "Id": "c778046b548c4455a40e3b2d955370c1",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "7d045b2406bb4085bf8df17f9f388ca7",
+      "End": "ded1b100d479401bba5b7c2c9a9d4877",
+      "Id": "5a015134afda44b1bb5a9374a35055ea",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "8b4b64f37e69481a8d54873346a6b740",
+      "End": "ee98b2fef56a4072b2914bbba04b91d2",
+      "Id": "e9a273d7bdf44dca835d46fe94c9ee55",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "43301d2b30f44fc48e83601a6dd03c7a",
+      "End": "15a52cd5fcb04431a2b6e3aba7eb6f4a",
+      "Id": "735016fff91148b0b682bbe281544a8c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "4c676bc1b02f4b6cba21c9a8ba52481d",
+      "End": "da3b7e41532046848577f4b86366e72a",
+      "Id": "65b23926501149fa9254af27290cb524",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3e7b680e19e543ca989c121a3e1aaa69",
+      "End": "18dff615216a4fc39b7c2b48317e20f8",
+      "Id": "89837ac1ae0e4bcbb613f6a6631ee887",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "7167192f441047728658af878b37e66f",
+      "End": "6a2fa48655cb49f6b1c4f7f356d9e081",
+      "Id": "0bdaaf5700d143aea74a44436038e438",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "2.16",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "3.0",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.16.2.5624",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Id": "9f7c1c8ce9f548969b9db53d61e69c04",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 433.0,
+        "Y": 270.0
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "6962b005814c4782a7b3eb1e2f29a465",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 674.2394820649871,
+        "Y": 267.08737847798443
+      },
+      {
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Id": "8c15185fc35b4133932e3d93f296c0ed",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 430.64996776467558,
+        "Y": 624.28303868281432
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "f483fce1e68f481c9fa229663ca0b433",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 671.88944982966245,
+        "Y": 621.3704171607983
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "369a4510ed714ffaa36720c34603978a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1310.9088834342624,
+        "Y": 338.5494006139121
+      },
+      {
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Id": "aab5433f8d384ef18e9dec5debcfa098",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1069.6694013692763,
+        "Y": 341.46202213592812
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "ca078f30de9b47e88548787a55b5940f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1979.4127208731213,
+        "Y": 292.253741877272
+      },
+      {
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Id": "7ef87cae7c8441fbbf7014fd2a4a7f2a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1725.3424188387194,
+        "Y": 319.56115625666121
+      },
+      {
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Id": "75b9ab96dc6d4542b354010f2f54d835",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1738.3679634278953,
+        "Y": 650.4770114070385
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "1422e77ec0b444eb9528175c9baaf611",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1980.786119908191,
+        "Y": 647.56438988502248
+      },
+      {
+        "Name": "Prefijo ",
+        "ShowGeometry": true,
+        "Id": "32fcf5a5468045dc90e2d19075102aae",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1744.28164533689,
+        "Y": 770.19408713018845
+      },
+      {
+        "Name": "Sufijo ",
+        "ShowGeometry": true,
+        "Id": "44d33f67eb9c490e8b301e39ad240cc1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1743.3495439022306,
+        "Y": 901.32962272369173
+      },
+      {
+        "Name": "Boolean",
+        "ShowGeometry": true,
+        "Id": "07a9c85cadc74d05810c9415dbafa587",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2494.3192883025627,
+        "Y": 340.82761431961922
+      },
+      {
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Id": "8d10ea0b817349e482b13cfbdbeb6c8d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2747.6213796773404,
+        "Y": 313.52019994023021
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "dec89ac060584c75b24ffe01baee527f",
+        "Title": "LIMPIEZA DE PLANTILLAS",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "9f7c1c8ce9f548969b9db53d61e69c04",
+          "6962b005814c4782a7b3eb1e2f29a465"
+        ],
+        "HasNestedGroups": false,
+        "Left": 423.0,
+        "Top": 194.08737847798443,
+        "Width": 435.2394820649871,
+        "Height": 207.91262152201557,
+        "FontSize": 36.0,
+        "InitialTop": 267.08737847798443,
+        "InitialHeight": 147.91262152201557,
+        "TextblockHeight": 63.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "43d64cc0cf1f41a5acf90432e7bb3334",
+        "Title": "LIMPIEZA DE PLANTILLAS 2.0\r\n",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "8c15185fc35b4133932e3d93f296c0ed",
+          "f483fce1e68f481c9fa229663ca0b433"
+        ],
+        "HasNestedGroups": false,
+        "Left": 420.64996776467558,
+        "Top": 461.3704171607983,
+        "Width": 435.23948206498687,
+        "Height": 294.912621522016,
+        "FontSize": 36.0,
+        "InitialTop": 621.3704171607983,
+        "InitialHeight": 147.91262152201602,
+        "TextblockHeight": 150.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "ba0ded0f44364815b010ecef395c5de2",
+        "Title": "LIMPIEZA DE FILTROS\r\n",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "aab5433f8d384ef18e9dec5debcfa098",
+          "369a4510ed714ffaa36720c34603978a"
+        ],
+        "HasNestedGroups": false,
+        "Left": 1059.6694013692763,
+        "Top": 222.5494006139121,
+        "Width": 435.23948206498608,
+        "Height": 250.91262152201602,
+        "FontSize": 36.0,
+        "InitialTop": 338.5494006139121,
+        "InitialHeight": 147.91262152201602,
+        "TextblockHeight": 106.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "744d67e10ba342a7a56be8bde42e3089",
+        "Title": "LIMPIEZA DE VISTAS\r\n",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "7ef87cae7c8441fbbf7014fd2a4a7f2a",
+          "ca078f30de9b47e88548787a55b5940f"
+        ],
+        "HasNestedGroups": false,
+        "Left": 1715.3424188387194,
+        "Top": 176.25374187727198,
+        "Width": 448.07030203440218,
+        "Height": 275.30741437938923,
+        "FontSize": 36.0,
+        "InitialTop": 292.253741877272,
+        "InitialHeight": 172.30741437938923,
+        "TextblockHeight": 106.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "f6d06db2b96d4b3189a35c5af263e16b",
+        "Title": "LIMPIEZA DE VISTAS CON/SIN PREFIJO\r\n",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "75b9ab96dc6d4542b354010f2f54d835",
+          "1422e77ec0b444eb9528175c9baaf611",
+          "32fcf5a5468045dc90e2d19075102aae",
+          "44d33f67eb9c490e8b301e39ad240cc1"
+        ],
+        "HasNestedGroups": false,
+        "Left": 1728.3679634278953,
+        "Top": 487.56438988502248,
+        "Width": 436.41815648029547,
+        "Height": 545.76523283866925,
+        "FontSize": 36.0,
+        "InitialTop": 647.56438988502248,
+        "InitialHeight": 398.76523283866925,
+        "TextblockHeight": 150.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "ab70ed7dfc564b87a4033b5647295fa2",
+        "Title": "LIMPIEZA DE TABLAS \r\n",
+        "DescriptionText": "<Double click here to edit group description>",
+        "IsExpanded": true,
+        "WidthAdjustment": 0.0,
+        "HeightAdjustment": 0.0,
+        "Nodes": [
+          "07a9c85cadc74d05810c9415dbafa587",
+          "8d10ea0b817349e482b13cfbdbeb6c8d"
+        ],
+        "HasNestedGroups": false,
+        "Left": 2484.3192883025627,
+        "Top": 197.52019994023021,
+        "Width": 447.30209137477777,
+        "Height": 275.307414379389,
+        "FontSize": 36.0,
+        "InitialTop": 313.52019994023021,
+        "InitialHeight": 172.307414379389,
+        "TextblockHeight": 106.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": -999.21117290479629,
+    "Y": -137.44686535831909,
+    "Zoom": 0.688410060920174
+  }
+}
