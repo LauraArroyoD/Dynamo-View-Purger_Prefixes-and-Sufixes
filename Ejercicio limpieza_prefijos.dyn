@@ -2,7 +2,7 @@
   "Uuid": "f091e189-5e4d-42b9-bedd-b45de2951d55",
   "IsCustomNode": false,
   "Description": "",
-  "Name": "Ejercicio limpieza_prefijos",
+  "Name": "Dynamo_Prefixes_Sufixes,
   "ElementResolver": {
     "ResolutionMap": {}
   },
